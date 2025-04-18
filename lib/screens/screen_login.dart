@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pdf_viewer/screens/screen_home.dart';
+import 'package:pdf_viewer/screens/screen_sign_up.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -195,10 +196,10 @@ class _ScreenLoginState extends State<ScreenLogin> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => ()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ScreenSignUp()));
                           },
                           child: Text(
                             'Sign Up',
