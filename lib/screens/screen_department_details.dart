@@ -11,8 +11,11 @@ class ScreenDepartmentDetails extends StatefulWidget {
   final String fileName;
   final String department;
 
-
-  const ScreenDepartmentDetails({super.key, required this.fileName, required this.department});
+  const ScreenDepartmentDetails({
+    super.key,
+    required this.fileName,
+    required this.department,
+  });
 
   @override
   State<ScreenDepartmentDetails> createState() => _ScreenDepartmentDetailsState();
@@ -26,9 +29,9 @@ class _ScreenDepartmentDetailsState extends State<ScreenDepartmentDetails> {
   void initState() {
     super.initState();
     _loadPdf();
+    _registerDownloadCallback();
   }
 
-  // Load PDF from Firebase Storage to temporary directory for viewing
   Future<void> _loadPdf() async {
     try {
       final ref = FirebaseStorage.instance.ref().child(widget.fileName);
@@ -48,20 +51,19 @@ class _ScreenDepartmentDetailsState extends State<ScreenDepartmentDetails> {
     }
   }
 
-  // Download PDF using FlutterDownloader
   void _registerDownloadCallback() {
     FlutterDownloader.registerCallback((id, status, progress) {
       if (status == DownloadTaskStatus.complete) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Download completed: $id")),
+          SnackBar(content: Text("Download completed")),
         );
       } else if (status == DownloadTaskStatus.failed) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Download failed: $id")),
+          SnackBar(content: Text("Download failed")),
         );
       } else if (status == DownloadTaskStatus.canceled) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Download canceled: $id")),
+          SnackBar(content: Text("Download canceled")),
         );
       }
     });
@@ -101,7 +103,7 @@ class _ScreenDepartmentDetailsState extends State<ScreenDepartmentDetails> {
         count++;
       }
 
-      final taskId = await FlutterDownloader.enqueue(
+      await FlutterDownloader.enqueue(
         url: downloadUrl,
         savedDir: downloadsDir.path,
         fileName: fileName,
@@ -109,11 +111,6 @@ class _ScreenDepartmentDetailsState extends State<ScreenDepartmentDetails> {
         openFileFromNotification: true,
         requiresStorageNotLow: true,
       );
-
-      if (taskId == null) {
-        throw Exception('Download task could not be created');
-      }
-
     } catch (e) {
       debugPrint("Download error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
@@ -122,7 +119,6 @@ class _ScreenDepartmentDetailsState extends State<ScreenDepartmentDetails> {
     }
   }
 
-  // Share PDF file
   Future<void> _sharePdf() async {
     if (localPath != null) {
       await Share.shareXFiles(
@@ -135,8 +131,14 @@ class _ScreenDepartmentDetailsState extends State<ScreenDepartmentDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title:  Text(widget.department),
+        backgroundColor: Colors.grey[900],
+        title: Text(
+          widget.department,
+          style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: const Icon(Icons.download),
@@ -149,7 +151,7 @@ class _ScreenDepartmentDetailsState extends State<ScreenDepartmentDetails> {
         ],
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator(color: Colors.white))
           : localPath != null
           ? PDFView(
         filePath: localPath!,
@@ -157,8 +159,14 @@ class _ScreenDepartmentDetailsState extends State<ScreenDepartmentDetails> {
         swipeHorizontal: false,
         autoSpacing: true,
         pageSnap: true,
+        backgroundColor: Colors.black,
       )
-          : const Center(child: Text('Failed to load PDF')),
+          : const Center(
+        child: Text(
+          'Failed to load PDF',
+          style: TextStyle(color: Colors.white70),
+        ),
+      ),
     );
   }
 }
