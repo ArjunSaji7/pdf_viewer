@@ -48,6 +48,9 @@ dev_dependencies:
   permission_handler: any
   share_plus: ^10.1.4
   flutter_downloader: any
+  lottie: any
+  cached_network_image: any
+
 
 
 
@@ -74,6 +77,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/logos/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -2,6 +2,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"/>
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
@@ -9,7 +11,7 @@
 
     <application
         android:requestLegacyExternalStorage="true"
-        android:label="pdf_viewer"
+        android:label="smec"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -39,14 +41,15 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.flutter_downloader.provider"
+            android:authorities="com.example.pdf_viewer.flutter_downloader.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/flutter_downloader_file_paths" />
+                android:resource="@xml/flutter_downloader_paths" />
         </provider>
 
 

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:pdf_viewer/screens/home.dart';
 import 'package:pdf_viewer/screens/screen_splash.dart';
 
 void main() async {
@@ -8,8 +9,6 @@ void main() async {
 
   // Initialize Firebase
   await initializeFirebase();
-
-  // Initialize FlutterDownloader
   await FlutterDownloader.initialize(
     debug: true, // Set to false in production
     ignoreSsl: true, // Optional, for testing with self-signed URLs
@@ -38,7 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const ScreenSplash(),
+      home:  ScreenSplash(),
     );
   }
 }
